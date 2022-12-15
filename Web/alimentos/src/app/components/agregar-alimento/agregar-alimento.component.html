@@ -1,0 +1,51 @@
+<p-toast></p-toast>
+<p-dialog header="Alimento" [(visible)]="mostrarModal" [modal]="true" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false" (onHide)="  cerrarModal()">
+    
+    <form [formGroup]="alimentoForm" class="alimento-form">
+            <div class="field grid">
+                <label class="block" for="nombre" style="width:100px">Nombre</label>
+                <div class="col">
+                    <input type="text" pInputText id="nombre" formControlName="nombre" style="width:500px"/>
+                    <small class="p-error block" *ngIf="nombreValido">Nombre es requerido</small>
+                </div>
+                
+            </div>
+            <div class="field grid">
+                <label class="block" for="costo" style="width:100px">Costo</label>
+                <div class="col">
+                    <p-inputNumber id="costo" formControlName="costo" style="width:500px"></p-inputNumber>
+                <small class="p-error block" *ngIf="costoValido">Costo es requerido</small>
+                </div>
+                
+            </div>
+            <div class="field grid">
+                <label class="block" for="ingrediente" style="width:100px">Ingrediente</label>
+                <div class="col">
+                    <input type="text" pInputText id="ingrediente" formControlName="ingrediente" style="width:500px" /> 
+                
+                </div>
+                <div class="col">
+                    <p-button label="Agregar" (onClick)="agregarIngrediente()"></p-button>                
+                </div>
+                
+            </div> 
+            <p-table [value]="ingredientes">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Ingredientes</th>                        
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-ingrediente>
+                    <tr>
+                        <td>{{ingrediente.nombre}}</td>                              
+                    </tr>
+                </ng-template>
+            </p-table>           
+        </form>
+
+        <ng-template pTemplate="footer">
+            <p-button  (click)="cerrarModal()" label="Cancelar" styleClass="p-button-text"></p-button>
+            <p-button  (click)="agregarAlimento()" label="Aceptar" [disabled]="alimentoForm.invalid || ingredientes.length == 0 "></p-button>
+        </ng-template>
+</p-dialog>

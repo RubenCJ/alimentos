@@ -1,0 +1,79 @@
+<div class="container">
+
+<div class="flex justify-content-between">
+    <h2>Alimentos</h2>
+    <p-button label="Agregar" (onClick)="mostrarRegistroModal()"></p-button>
+</div>
+<p-table [value]="alimentos"  [paginator]="true" [rows]="10" >
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Costo</th>
+            <th></th>            
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-alimento>
+        <tr>
+            <td>{{alimento.idAlimento}}</td>
+            <td>{{alimento.nombre}}</td>
+            <td>{{alimento.costo}}</td>
+            <td>
+                <button pButton type="button" icon="pi pi-align-justify" 
+                    class="p-button-rounded p-button-info p-button-text"
+                    (click)="consultarAlimento(alimento.idAlimento)">                    
+                </button>
+                <button pButton type="button" icon="pi pi-trash" 
+                    class="p-button-rounded p-button-danger p-button-text"
+                    (click)="confirmarEliminar(alimento)">                    
+                </button>
+                
+            </td>            
+        </tr>
+    </ng-template>
+</p-table>
+</div>
+
+<app-agregar-alimento 
+    [mostrarModal]="mostrarModal"
+    (clickCerrar)="ocultarModalAgregar($event)">
+</app-agregar-alimento>
+
+<p-confirmDialog [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '30vw'}">    
+</p-confirmDialog>
+
+<p-dialog header="Consulta" [(visible)]="mostrarModalConsulta" [modal]="true" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false">
+    
+            <div class="field grid">
+                <label class="block" for="nombre" style="width:100px">Nombre</label>
+                <div class="col">
+                    {{alimentoSelect.nombre}}
+                </div>
+                
+            </div>
+            <div class="field grid">
+                <label class="block" for="costo" style="width:100px">Costo</label>
+                <div class="col">
+                    {{alimentoSelect.costo | currency}}
+                </div>
+            </div>
+           
+            <p-table [value]="alimentoSelect.idIngredientes">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Ingredientes</th>                        
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-ingrediente>
+                    <tr>
+                        <td>{{ingrediente.nombre}}</td>                              
+                    </tr>
+                </ng-template>
+            </p-table>           
+        
+
+        <ng-template pTemplate="footer">
+            <p-button  (click)="mostrarModalConsulta=false" label="Cerrar" styleClass="p-button-text"></p-button>            
+        </ng-template>
+</p-dialog>
